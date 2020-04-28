@@ -31,9 +31,9 @@ class CVEInline(admin.TabularInline):
 
 @admin.register(Vulnerability)
 class HeroAdmin(admin.ModelAdmin, ExportCsvMixin):
-    list_display = ['name','state','cves_display','modified_date']
+    list_display = ['name','state','cves_display','exploited_in_the_wild','modified_date']
     list_filter = ['state','creation_date','impact']
-    search_fields = ['name','description','solution','cves__cve_id']
+    search_fields = ['name','description','solution','notes','cves__cve_id']
     inlines = [CVEInline]
     actions = ["export_as_csv","send_mail"]
 
