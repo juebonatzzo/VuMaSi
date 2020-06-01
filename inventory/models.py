@@ -76,10 +76,8 @@ class Asset(models.Model):
     # notes
     # ammount
 
-    def as_cpe23_uri(self):
+    def as_cpe23(self):
         pass
 
-    def as_cpe23_wfn(self):
-        pass
 
 
