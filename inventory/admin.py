@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Vulnerability,CVE
+from .models import Vulnerability,CVE, Asset
 import csv
 from django.http import HttpResponse
 
@@ -30,8 +30,8 @@ class CVEInline(admin.TabularInline):
 
 
 @admin.register(Vulnerability)
-class HeroAdmin(admin.ModelAdmin, ExportCsvMixin):
-    list_display = ['name','state','cves_display','exploited_in_the_wild','modified_date']
+class VulnerabilityAdmin(admin.ModelAdmin, ExportCsvMixin):
+    list_display = ['name','state','cves_display','modified_date']
     list_filter = ['state','creation_date','impact']
     search_fields = ['name','description','solution','notes','cves__cve_id']
     inlines = [CVEInline]
@@ -50,3 +50,8 @@ class HeroAdmin(admin.ModelAdmin, ExportCsvMixin):
 
     # list_editable = ['state']
     # date_hierarchy = 'creation_date'
+
+
+@admin.register(Asset)
+class VulnerabilityAdmin(admin.ModelAdmin):
+    pass

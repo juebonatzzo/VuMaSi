@@ -25,7 +25,7 @@ class Asset(models.Model):
         ('u', 'url'),
     ]
 
-    part = models.CharField(choices=ASSET_PART_CHOICES)
+    part = models.CharField(choices=ASSET_PART_CHOICES, max_length=1)
     vendor = models.CharField(max_length=100, )
     product = models.CharField(max_length=100, )
     version = models.CharField(max_length=100, )
