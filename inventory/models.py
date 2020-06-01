@@ -1,55 +1,23 @@
 from django.db import models
 
-VULNERABILITY_STATES = [
-    (0, 'Created'),
-    (10, 'Study'),
-    (20, 'Reported'),
-    (30, 'Monitoring'),
-    (40, 'Closed'),
-]
-
-VULNERABILITY_IMPACT = [
-    (0, 'Informational'),
-    (10, 'Low'),
-    (20, 'Medium'),
-    (30, 'High'),
-    (40, 'Critical'),
-]
-
-
-class Asset(models.Model):
-    ASSET_PART_CHOICES = [
-        ('a', 'application'),
-        ('o', 'operating system'),
-        ('h', 'hardware device'),
-        ('u', 'url'),
-    ]
-
-    part = models.CharField(choices=ASSET_PART_CHOICES, max_length=1)
-    vendor = models.CharField(max_length=100, )
-    product = models.CharField(max_length=100, )
-    version = models.CharField(max_length=100, )
-    update = models.CharField(max_length=100, )
-    edition = models.CharField(max_length=100, )
-    language = models.CharField(max_length=100, )
-    sw_edition = models.CharField(max_length=100, )
-    target_sw = models.CharField(max_length=100, )
-    target_hw = models.CharField(max_length=100, )
-    other = models.CharField(max_length=100, )
-
-    # vulnerabilities
-    # owner
-    # notes
-    # ammount
-
-    def as_cpe23_uri(self):
-        pass
-
-    def as_cpe23_wfn(self):
-        pass
-
 
 class Vulnerability(models.Model):
+    VULNERABILITY_STATES = [
+        (0, 'Created'),
+        (10, 'Study'),
+        (20, 'Reported'),
+        (30, 'Monitoring'),
+        (40, 'Closed'),
+    ]
+
+    VULNERABILITY_IMPACT = [
+        (0, 'Informational'),
+        (10, 'Low'),
+        (20, 'Medium'),
+        (30, 'High'),
+        (40, 'Critical'),
+    ]
+
     name = models.CharField(max_length=200, unique=True)
     state = models.IntegerField(choices=VULNERABILITY_STATES, default=0, )
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -81,3 +49,37 @@ class CVE(models.Model):
 
     def __str__(self):
         return self.cve_id
+
+
+class Asset(models.Model):
+    ASSET_PART_CHOICES = [
+        ('a', 'application'),
+        ('o', 'operating system'),
+        ('h', 'hardware device'),
+        ('u', 'url'),
+    ]
+
+    part = models.CharField(choices=ASSET_PART_CHOICES, max_length=1, blank=False)
+    vendor = models.CharField(max_length=100, blank=True)
+    product = models.CharField(max_length=100, blank=True)
+    version = models.CharField(max_length=100, blank=True)
+    update = models.CharField(max_length=100, blank=True)
+    edition = models.CharField(max_length=100, blank=True)
+    language = models.CharField(max_length=100, blank=True)
+    sw_edition = models.CharField(max_length=100, blank=True)
+    target_sw = models.CharField(max_length=100, blank=True)
+    target_hw = models.CharField(max_length=100, blank=True)
+    other = models.CharField(max_length=100, blank=True)
+
+    vulnerabilities = models.ManyToManyField(Vulnerability)
+    # owner
+    # notes
+    # ammount
+
+    def as_cpe23_uri(self):
+        pass
+
+    def as_cpe23_wfn(self):
+        pass
+
+
