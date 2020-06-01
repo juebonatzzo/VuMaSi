@@ -17,16 +17,49 @@ VULNERABILITY_IMPACT = [
 ]
 
 
+class Asset(models.Model):
+    ASSET_PART_CHOICES = [
+        ('a', 'application'),
+        ('o', 'operating system'),
+        ('h', 'hardware device'),
+        ('u', 'url'),
+    ]
+
+    part = models.CharField(choices=ASSET_PART_CHOICES)
+    vendor = models.CharField(max_length=100, )
+    product = models.CharField(max_length=100, )
+    version = models.CharField(max_length=100, )
+    update = models.CharField(max_length=100, )
+    edition = models.CharField(max_length=100, )
+    language = models.CharField(max_length=100, )
+    sw_edition = models.CharField(max_length=100, )
+    target_sw = models.CharField(max_length=100, )
+    target_hw = models.CharField(max_length=100, )
+    other = models.CharField(max_length=100, )
+
+    # vulnerabilities
+    # owner
+    # notes
+    # ammount
+
+    def as_cpe23_uri(self):
+        pass
+
+    def as_cpe23_wfn(self):
+        pass
+
+
 class Vulnerability(models.Model):
     name = models.CharField(max_length=200, unique=True)
-    state = models.IntegerField(choices=VULNERABILITY_STATES, default=0,)
+    state = models.IntegerField(choices=VULNERABILITY_STATES, default=0, )
     creation_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     description = models.TextField(null=True)
     impact = models.IntegerField(choices=VULNERABILITY_IMPACT, default=0)
-    exploited_in_the_wild = models.BooleanField(default=False)
     solution = models.TextField(null=True)
-    notes = models.TextField(null=True)
+
+    # exploited_in_the_wild = models.BooleanField(default=False)
+    # notes = models.TextField(null=True)
     # links
     # attack_vector
     # vulnerable_products
